@@ -3,6 +3,7 @@ import { searchBarStore } from "@/state/State";
 import { useStore } from "zustand";
 import { currentCandidateStore } from "@/state/State";
 import { navigationStore } from "@/state/State";
+import SearchBar from "@/components/header/SearchBar";
 
 function List() {
     const { results } = useStore(searchBarStore);
@@ -26,6 +27,9 @@ function List() {
 
     return (
         <div className="container mx-auto py-10">
+
+            <SearchBar />
+
             <ul className="">
                 {results.map((candidate, index) => (
                     <div key={index} onClick={() => handleClick(candidate)}>

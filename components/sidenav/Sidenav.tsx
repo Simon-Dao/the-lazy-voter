@@ -2,18 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 import SearchBar from "@/components/header/SearchBar";
-import List from "@/components/result/List";
+import List from "@/components/sidenav/search/List";
 import { useStore } from "zustand";
 import { navigationStore } from "@/state/State";
+import AiAnalyzer from "./AiAnalyzer";
 
 function Sidenav() {
     const { currentSideNavTab, setCurrentSideNavTab } = useStore(navigationStore);
 
-    const tabs = ["Search", "Analytics"];
+    const tabs = ["Search", "AI Analyzer"];
 
     const handleTabClick = (tab: string) => {
         setCurrentSideNavTab(tab);
-        sessionStorage.setItem("selectedTabSideNav", tab);
     };
 
     return (
@@ -32,9 +32,8 @@ function Sidenav() {
                 ))}
             </div>
             <ul className="flex-1 bg-white shadow-md overflow-y-scroll p-3">
-
-                <SearchBar />
-                <List />
+                {currentSideNavTab == "Search" && <List/>}
+                {currentSideNavTab == "AI Analyzer" && <AiAnalyzer/>}
             </ul>
         </div>
     );

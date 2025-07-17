@@ -2,7 +2,6 @@
 
 import { searchBarStore } from "@/state/State";
 import { useStore } from "zustand";
-import { FEC_API_BASE_URL } from "@/state/Constants";
 import { useDebounce } from "@/app/lib/utils";
 import { useEffect } from "react";
 

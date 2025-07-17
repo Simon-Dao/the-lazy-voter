@@ -10,8 +10,8 @@ interface Totals {
 }
 
 interface NavigationState {
-    selectedElectionYear: number | null;
-    setSelectedElectionYear: (result: number | null) => void;
+    selectedElectionYear: number | "All" | null;
+    setSelectedElectionYear: (result: number | "All") => void;
     selectedSearchResult: string | null;
     setSelectedSearchResult: (result: string | null) => void;
     currentSideNavTab: string;
@@ -40,11 +40,41 @@ interface CurrentCandidateState {
     setTotals: (newTotals: any) => void;
 }
 
+interface AiInfoState {
+    prompt?: string;
+    output: string;
+    setPrompt: (newPrompt: string) => void;
+    setOutput: (newOutput: string) => void;
+}
+
+export const aiInfoStore = create<AiInfoState>()(
+    persist(
+        (set) => ({
+           prompt: "",
+            output: "",
+            setPrompt: (newPrompt: string) => set({prompt: newPrompt}),
+            setOutput: (newOutput: string) => set({output: newOutput})
+        }),
+        {
+            name: "searchBarStore", // sessionStorage key
+            storage: {
+                getItem: (key) => {
+                    const item = sessionStorage.getItem(key);
+                    return item ? JSON.parse(item) : null;
+                },
+                setItem: (key, value) =>
+                    sessionStorage.setItem(key, JSON.stringify(value)),
+                removeItem: (key) => sessionStorage.removeItem(key),
+            },
+        }
+    )
+);
+
 export const navigationStore = create<NavigationState>()(
     persist(
         (set) => ({
-            selectedElectionYear: null,
-            setSelectedElectionYear: (year: number | null) => set({ selectedElectionYear: year }),
+            selectedElectionYear: "All",
+            setSelectedElectionYear: (year: number | "All") => set({ selectedElectionYear: year }),
             selectedSearchResult: null,
             setSelectedSearchResult: (result) =>
                 set({ selectedSearchResult: result }),

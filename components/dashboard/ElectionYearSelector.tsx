@@ -5,14 +5,37 @@ import { navigationStore } from "@/state/State";
 
 function ElectionYearSelector() {
     const { basicInfo } = useStore(currentCandidateStore);
-    const { selectedElectionYear, setSelectedElectionYear} = useStore(navigationStore);
+    const { selectedElectionYear, setSelectedElectionYear } =
+        useStore(navigationStore);
+
+    console.log(basicInfo)
 
     return (
         <div className="flex w-full bg-white p-4 shadow-md">
             <h2 className="text-lg font-semibold mb-2">Election Years</h2>
             <ul className="flex flex-wrap">
+                <button
+                    onClick={() => setSelectedElectionYear("All")}
+                    className={
+                        (selectedElectionYear == "All"
+                            ? "bg-blue-400"
+                            : "bg-gray-100") +
+                        " text-gray-700 m-1 px-2 py-1 rounded-md cursor-pointer"
+                    }
+                >
+                    All
+                </button>
+
                 {basicInfo.election_years.map((year: number, index: number) => (
-                    <button onClick={() => setSelectedElectionYear(year)} className={(selectedElectionYear == year ? "bg-blue-400" : "bg-gray-100") + " text-gray-700 m-1 px-2 py-1 rounded-md cursor-pointer"}>
+                    <button
+                        onClick={() => setSelectedElectionYear(year)}
+                        className={
+                            (selectedElectionYear == year
+                                ? "bg-blue-400"
+                                : "bg-gray-100") +
+                            " text-gray-700 m-1 px-2 py-1 rounded-md cursor-pointer"
+                        }
+                    >
                         {year}
                     </button>
                 ))}
