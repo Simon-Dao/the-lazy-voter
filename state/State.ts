@@ -10,8 +10,8 @@ interface Totals {
 }
 
 interface NavigationState {
-    selectedElectionYear: number | "All" | null;
-    setSelectedElectionYear: (result: number | "All") => void;
+    selectedElectionYear: string;
+    setSelectedElectionYear: (year: string) => void;
     selectedSearchResult: string | null;
     setSelectedSearchResult: (result: string | null) => void;
     currentSideNavTab: string;
@@ -74,7 +74,7 @@ export const navigationStore = create<NavigationState>()(
     persist(
         (set) => ({
             selectedElectionYear: "All",
-            setSelectedElectionYear: (year: number | "All") => set({ selectedElectionYear: year }),
+            setSelectedElectionYear: (year: string) => set({ selectedElectionYear: year }),
             selectedSearchResult: null,
             setSelectedSearchResult: (result) =>
                 set({ selectedSearchResult: result }),
@@ -83,7 +83,7 @@ export const navigationStore = create<NavigationState>()(
             currentSideOption: "home",
             setCurrentSideOption: (option) =>
                 set({ currentSideOption: option }),
-            currentDashboardTab: "overview",
+            currentDashboardTab: "Overview",
             setCurrentDashboardTab: (tab) => set({ currentDashboardTab: tab }),
         }),
         {

@@ -94,7 +94,8 @@ function Overview() {
                             .map((committee: any, i: number) => (
                                 <li key={i}>
                                     <strong>{committee.name}</strong> –{" "}
-                                    {committee.designation_full}, Treasurer:{" "}
+                                    {committee.designation_full}, Committee ID:{" "}
+                                    {committee.committee_id}, Treasurer:{" "}
                                     {committee.treasurer_name}
                                 </li>
                             ))}

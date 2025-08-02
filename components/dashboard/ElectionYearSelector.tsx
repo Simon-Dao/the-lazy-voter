@@ -8,8 +8,6 @@ function ElectionYearSelector() {
     const { selectedElectionYear, setSelectedElectionYear } =
         useStore(navigationStore);
 
-    console.log(basicInfo)
-
     return (
         <div className="flex w-full bg-white p-4 shadow-md">
             <h2 className="text-lg font-semibold mb-2">Election Years</h2>
@@ -28,6 +26,7 @@ function ElectionYearSelector() {
 
                 {basicInfo.election_years.map((year: number, index: number) => (
                     <button
+                        key={index}
                         onClick={() => setSelectedElectionYear(year)}
                         className={
                             (selectedElectionYear == year

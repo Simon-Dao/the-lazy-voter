@@ -7,7 +7,7 @@ import Policies from "@/components/dashboard/policies/Policies";
 import { currentCandidateStore } from "@/state/State";
 
 function Dashboard() {
-    const { basicInfo } = useStore(currentCandidateStore);
+    const { name, basicInfo } = useStore(currentCandidateStore);
     const { currentDashboardTab, setCurrentDashboardTab } =
         useStore(navigationStore);
     const tabs = ["Overview", "Campaign Finance", "Policies"];
@@ -20,7 +20,7 @@ function Dashboard() {
                 {tabs.map((tab, index) => (
                     <button
                         key={index}
-                        className={`px-2 py-2 mx-1 rounded-br-md ${
+                        className={`px-2 py-2 mx-1 rounded-br-md cursor-pointer ${
                             currentDashboardTab === tab
                                 ? "bg-gray-300"
                                 : "bg-white"
@@ -33,7 +33,7 @@ function Dashboard() {
             </div>
 
             {/* Content */}
-            <div className="flex-1  overflow-y-scroll p-4">
+            <div className="h-full overflow-y-scroll p-4 bg-green-200">
                 {currentDashboardTab === "Overview" && <Overview />}
                 {currentDashboardTab === "Campaign Finance" && <Finances />}
                 {currentDashboardTab === "Policies" && <Policies />}
