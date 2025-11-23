@@ -33,9 +33,13 @@ interface QueryState {
 
 interface CurrentCandidateState {
     name: string;
+    state: string;
     basicInfo: any;
     totals: Totals | null;
+    congressId?: string;
     setName: (newName: string) => void;
+    setCongressId: (newCongressId: string) => void;
+    setState: (newState: string) => void;
     setBasicInfo: (newBasicInfo: any) => void;
     setTotals: (newTotals: any) => void;
 }
@@ -105,11 +109,15 @@ export const currentCandidateStore = create<CurrentCandidateState>()(
     persist(
         (set) => ({
             name: "",
+            state: "",
             basicInfo: null,
             totals: null,
+            congressId: "",
+            setState: (newState) => set({ state: newState }),
             setName: (newName) => set({ name: newName }),
             setBasicInfo: (newBasicInfo) => set({ basicInfo: newBasicInfo }),
             setTotals: (newTotals) => set({ totals: newTotals }),
+            setCongressId: (newCongressId) => set({ congressId: newCongressId })
         }),
         {
             name: "currentCandidateStore", // sessionStorage key

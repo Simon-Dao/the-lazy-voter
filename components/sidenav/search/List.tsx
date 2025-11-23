@@ -7,7 +7,7 @@ import SearchBar from "@/components/header/SearchBar";
 
 function List() {
     const { results } = useStore(searchBarStore);
-    const { setName, setBasicInfo } = useStore(currentCandidateStore);
+    const { setName, setState, setBasicInfo } = useStore(currentCandidateStore);
     const { selectedSearchResult, setSelectedSearchResult } = useStore(navigationStore);
 
     function handleClick(candidate: any) {
@@ -15,6 +15,7 @@ function List() {
             candidate.name + candidate.office_full + candidate.active_through
         );
         setName(candidate.name);
+        setState(candidate.state);
         setBasicInfo(candidate);
     }
 
@@ -41,7 +42,7 @@ function List() {
                                     : "")
                             }
                         >
-                            <h1>{candidate.name}</h1>
+                            <h1>{candidate.name} ({candidate.state})</h1>
                             <h2>Office: {candidate.office_full}</h2>
                             <h2>Active Through: {candidate.active_through}</h2>
                         </div>

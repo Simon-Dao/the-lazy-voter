@@ -9,7 +9,7 @@ function Header() {
     
     //TODO placeholder state
     const [query, setQuery] = React.useState("");
-    const { name } = useStore(currentCandidateStore);
+    const { name,state } = useStore(currentCandidateStore);
 
     return (
         <header className="w-full bg-white h-12 flex items-center justify-between sticky top-0 z-40">
@@ -20,7 +20,7 @@ function Header() {
 
             {/* Center: Navigation */}
             <nav className="hidden md:flex font-semibold text-sm">
-                {name}
+                {name} ({state})
             </nav>
 
             {/* Right: Login */}
