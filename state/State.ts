@@ -20,6 +20,8 @@ interface NavigationState {
     setCurrentSideOption: (option: string) => void;
     currentDashboardTab: string;
     setCurrentDashboardTab: (tab: string) => void;
+    selectedPolicyArea: string | null;
+    setSelectedPolicyArea: (area: string | null) => void;
 }
 
 interface QueryState {
@@ -89,6 +91,8 @@ export const navigationStore = create<NavigationState>()(
                 set({ currentSideOption: option }),
             currentDashboardTab: "Overview",
             setCurrentDashboardTab: (tab) => set({ currentDashboardTab: tab }),
+            selectedPolicyArea: "",
+    setSelectedPolicyArea: (newPolicyArea) => set({ selectedPolicyArea: newPolicyArea }),
         }),
         {
             name: "navigationStore", // sessionStorage key

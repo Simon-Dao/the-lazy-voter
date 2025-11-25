@@ -1,6 +1,8 @@
 export const CONGRESS_API_BASE_URL = "https://api.congress.gov"
 export const FEC_API_BASE_URL = "https://api.open.fec.gov";
 
+export const CACHE_EXPIRATION_SECONDS = 3600; // 1 hour
+
 export const STATE_MAP: Map<string, string> = new Map([
   ["AL", "Alabama"],
   ["AK", "Alaska"],

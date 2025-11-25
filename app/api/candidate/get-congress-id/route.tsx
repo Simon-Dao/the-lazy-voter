@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import puppeteer from "puppeteer";
 import * as cheerio from "cheerio";
+import { getString, setCache } from "@/app/lib/cache";
 
 export async function GET(request: Request) {
   return await getCandidateIdFromName(request);
@@ -11,12 +12,19 @@ export async function getCandidateIdFromName(request: Request) {
   const { searchParams } = new URL(request.url);
   const name = searchParams.get("name");
   const state = searchParams.get("state");
+  const cacheKey = `congress_id_${name}_${state}`;
 
   try {
+    const cachedResult = await getString(cacheKey);
+    if (cachedResult) {
+      return cachedResult;
+    }
+    
     const browser = await puppeteer.launch({
-      headless: false, // <-- important
+      headless: false, // <-- used to bypass bot detection on cloudfaire sites
       args: ["--disable-blink-features=AutomationControlled"],
     });
+
     const page = await browser.newPage();
 
     // Navigate the page to a URL.
@@ -29,24 +37,32 @@ export async function getCandidateIdFromName(request: Request) {
     await page.keyboard.type(name || "");
     await page.keyboard.press("Enter");
     await page.waitForNavigation();
-    const members = await page.$$eval("#main > ol > li.expanded", els => els.map(el => el.innerHTML.trim()));
-    
+    const members = await page.$$eval("#main > ol > li.expanded", (els) =>
+      els.map((el) => el.innerHTML.trim())
+    );
+
     let congress_id = "";
 
-    for(const member of members) {
+    for (const member of members) {
       const $ = cheerio.load(member);
-      const memberState = $("div.quick-search-member > div.member-profile.member-image-exists > span:nth-child(1) > span").text().trim();
-      if(memberState !== state) {
+      const memberState = $(
+        "div.quick-search-member > div.member-profile.member-image-exists > span:nth-child(1) > span"
+      )
+        .text()
+        .trim();
+      if (memberState !== state) {
         continue;
       }
       const href = $(".result-heading > a").attr("href")?.trim();
       const tokens = href?.split("/");
 
-      congress_id = tokens?.[3]?.split('?')?.[0] ?? "";
+      congress_id = tokens?.[3]?.split("?")?.[0] ?? "";
     }
     await browser.close();
 
-    return NextResponse.json({ congress_id }, { status: 200 });
+    await setCache(cacheKey, congress_id);
+
+    return NextResponse.json({ data: congress_id }, { status: 200 });
   } catch (error) {
     console.error("Error fetching candidate data:", error);
     return NextResponse.json(

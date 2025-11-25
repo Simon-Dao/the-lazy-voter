@@ -38,11 +38,12 @@ function Overview() {
         const prompt = 
         `give a quick overview of the candidate provided 
         in the context. This summary will include their political timeline and committees.
-        Be as impartial and non biased as possible.`;
+        Be as impartial and non biased as possible. here is the candidate data: 
+        ${JSON.stringify(basicInfo)}`;
 
         const response = await fetch(`/api/agent?prompt=${prompt}`);
         const output = await response.json();
-
+        console.log(output.message)
         setOutput(output.message);
     }
 

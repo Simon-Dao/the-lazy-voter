@@ -1,7 +1,5 @@
-import OpenAI from "openai";
 import { NextResponse } from "next/server";
-
-const openAIClient = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function GET(request: Request) {
     
@@ -12,13 +10,17 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Candidate not found' }, { status: 404 });
     }
 
-    const openAIResponse = await openAIClient.responses.create({
-        model: "gpt-4.1-nano",
-        input: prompt,
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY || "");
+
+    const model = genAI.getGenerativeModel({
+        model: "gemini-2.5-flash",
     });
 
+    const result = await model.generateContent(prompt);
+    const message = await result.response.text();
+
     return NextResponse.json(
-        { message: openAIResponse.output_text },
+        { message },
         { status: 200 }
     );
 }
